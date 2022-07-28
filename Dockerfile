@@ -6,14 +6,38 @@ RUN export DEBIAN_FRONTEND=noninteractive && apt-get update && \
 WORKDIR /build
 ENV BUILD_DIR /build
 
-RUN git clone -b OpenSSL_1_1_1-stable https://github.com/openssl/openssl && \
-    git clone -b release-1.23.0 https://github.com/nginx/nginx  && \
-    git clone -b v0.3.0 https://github.com/phuslu/nginx-ssl-fingerprint && \
-    git clone -b v0.10.21  https://github.com/openresty/lua-nginx-module && \
-    git clone -b v0.3.1 https://github.com/vision5/ngx_devel_kit && \
-    git clone -b v2.1 https://github.com/LuaJIT/LuaJIT && \
-    git clone -b v0.07 https://github.com/openresty/lua-upstream-nginx-module && \
-    git clone -b v0.62 https://github.com/openresty/echo-nginx-module
+RUN curl -L -o openssl.tar.gz \
+    https://github.com/openssl/openssl/archive/refs/tags/OpenSSL_1_1_1q.tar.gz
+
+RUN curl -L -o nginx.tar.gz \
+    https://github.com/nginx/nginx/archive/refs/tags/release-1.23.0.tar.gz
+
+RUN curl -L -o nginx-ssl-fingerprint.tar.gz \
+    https://github.com/phuslu/nginx-ssl-fingerprint/archive/refs/tags/v0.3.0.tar.gz
+
+RUN curl -L -o lua-nginx-module.tar.gz \
+    https://github.com/openresty/lua-nginx-module/archive/refs/tags/v0.10.21.tar.gz
+
+RUN curl -L -o ngx_devel_kit.tar.gz \
+    https://github.com/vision5/ngx_devel_kit/archive/refs/tags/v0.3.1.tar.gz
+
+RUN curl -L -o LuaJIT.tar.gz \
+    https://github.com/LuaJIT/LuaJIT/archive/refs/tags/v2.1.0-beta3.tar.gz
+
+RUN curl -L -o lua-upstream-nginx-module.tar.gz \
+    https://github.com/openresty/lua-upstream-nginx-module/archive/refs/tags/v0.07.tar.gz
+
+RUN curl -L -o echo-nginx-module.tar.gz \
+    https://github.com/openresty/echo-nginx-module/archive/refs/tags/v0.62.tar.gz
+
+RUN tar xvf openssl.tar.gz
+RUN tar xvf nginx.tar.gz
+RUN tar xvf nginx-ssl-fingerprint.tar.gz
+RUN tar xvf lua-nginx-module.tar.gz
+RUN tar xvf ngx_devel_kit.tar.gz
+RUN tar xvf LuaJIT.tar.gz
+RUN tar xvf lua-upstream-nginx-module.tar.gz
+RUN tar xvf echo-nginx-module.tar.gz
 
 COPY build.sh ${BUILD_DIR}
 COPY Makefile ${BUILD_DIR}
@@ -25,7 +49,6 @@ RUN cd ${BUILD_DIR}/LuaJIT && \
 RUN make patch && \
    make build && \
    mkdir logs
-
 
 EXPOSE 443
 EXPOSE 8444
