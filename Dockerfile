@@ -15,6 +15,8 @@ RUN git clone -b OpenSSL_1_1_1-stable https://github.com/openssl/openssl && \
     git clone -b v0.07 https://github.com/openresty/lua-upstream-nginx-module && \
     git clone -b v0.62 https://github.com/openresty/echo-nginx-module
 
+COPY build.sh ${BUILD_DIR}
+COPY Makefile ${BUILD_DIR}
 
 RUN cd ${BUILD_DIR}/LuaJIT && \
 	make PREFIX=${BUILD_DIR}/LuaJIT && \
