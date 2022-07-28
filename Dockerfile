@@ -30,14 +30,16 @@ RUN curl -L -o lua-upstream-nginx-module.tar.gz \
 RUN curl -L -o echo-nginx-module.tar.gz \
     https://github.com/openresty/echo-nginx-module/archive/refs/tags/v0.62.tar.gz
 
-RUN tar xf openssl.tar.gz
-RUN tar xf nginx.tar.gz
-RUN tar xf nginx-ssl-fingerprint.tar.gz
-RUN tar xf lua-nginx-module.tar.gz
-RUN tar xf ngx_devel_kit.tar.gz
-RUN tar xf LuaJIT.tar.gz
-RUN tar xf lua-upstream-nginx-module.tar.gz
-RUN tar xf echo-nginx-module.tar.gz
+RUN tar xf openssl.tar.gz && mv openssl-OpenSSL_1_1_1q openssl
+RUN tar xf nginx.tar.gz && mv nginx-release-1.23.0 nginx
+RUN tar xf nginx-ssl-fingerprint.tar.gz && mv nginx-ssl-fingerprint-0.3.0 nginx-ssl-fingerprint
+RUN tar xf lua-nginx-module.tar.gz && mv lua-nginx-module-0.10.21 lua-nginx-module
+RUN tar xf ngx_devel_kit.tar.gz && mv ngx_devel_kit-0.3.1 ngx_devel_kit
+RUN tar xf LuaJIT.tar.gz && mv LuaJIT-2.1.0-beta3 LuaJIT
+RUN tar xf lua-upstream-nginx-module.tar.gz && mv lua-upstream-nginx-module-0.07 lua-upstream-nginx-module
+RUN tar xf echo-nginx-module.tar.gz && mv echo-nginx-module-0.62 echo-nginx-module
+
+RUN ls -al
 
 COPY build.sh ${BUILD_DIR}
 COPY Makefile ${BUILD_DIR}
