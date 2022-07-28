@@ -19,13 +19,13 @@ RUN git clone -b OpenSSL_1_1_1-stable https://github.com/openssl/openssl && \
 RUN cd ${BUILD_DIR}/LuaJIT && \
 	make PREFIX=${BUILD_DIR}/LuaJIT && \
 	make install PREFIX=${BUILD_DIR}/ngx_lib
-#RUN make patch && \
-#    make build && \
-#    mkdir logs
+
+RUN make patch && \
+   make build && \
+   mkdir logs
 
 
 EXPOSE 443
 EXPOSE 8444
 
-#CMD ./nginx/objs/nginx -p /build -c nginx-ssl-fingerprint/conf/nginx.conf
-CMD sleep 3600
+CMD ./nginx/objs/nginx -p /build -c nginx-ssl-fingerprint/conf/nginx.conf

@@ -9,7 +9,7 @@ services:
     volumes:
       - ./:/srv
     ports:
-      - "8443:8443"
+      - "8444:8444"
     environment:
       - env=dev
     container_name: nginx
