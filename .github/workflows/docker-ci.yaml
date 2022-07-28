@@ -19,9 +19,16 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Set some variables for the image
+        run: |
+          echo "IMAGE_VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
+          echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}" >> $GITHUB_ENV
       -
         name: Build and push
         uses: docker/build-push-action@v3
         with:
+          platforms: linux/amd64,linux/arm64
           push: true
-          tags: airdb/nginx:latest
+          tags: |
+            ${{env.IMAGE_NAME}}:latest
+          # ${{ env.IMAGE_NAME }}:${{ env.IMAGE_VERSION }}
