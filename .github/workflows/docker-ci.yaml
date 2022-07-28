@@ -5,6 +5,7 @@ on: [push]
 jobs:
   docker:
     runs-on: ubuntu-latest
+    environment: development
     steps:
       -
         name: Set up QEMU
@@ -12,15 +13,15 @@ jobs:
       -
         name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      # -
-      #   name: Login to DockerHub
-      #   uses: docker/login-action@v2
-      #   with:
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
         name: Build and push
         uses: docker/build-push-action@v3
         with:
-          push: false
+          push: true
           tags: airdb/nginx:latest
